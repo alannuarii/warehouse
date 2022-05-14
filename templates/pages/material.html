@@ -1,0 +1,169 @@
+{% extends 'layouts/base.html' %} {% load humanize %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<header id="headermasuk">
+  <nav id="navbar" class="navbar nav-menu">
+    <ul class="d-block">
+      <li>
+        <a href="{% url 'masuk' %}" class="nav-link active"><i class="bi-box-arrow-in-up"></i> <span>Material Masuk</span></a>
+      </li>
+      <li>
+        <a href="{% url 'keluar' %}" class="nav-link active"><i class="bi-box-arrow-down"></i> <span>Material Keluar</span></a>
+      </li>
+      <li>
+        <a href="{% url 'export_xls' %}" class="nav-link active"><i class="bi-filetype-xlsx"></i> <span>Export File</span></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- .nav-menu -->
+</header>
+<!-- End Header -->
+
+<section id="material" class="detail-pers d-flex align-items-center">
+  <div class="container">
+    <div class="saldo row text-center mb-3 mx-auto">
+      <h3 class="fw-bolder">SALDO MATERIAL</h3>
+      <h4>Rp {{total.totalMat__sum|intcomma}}</h4>
+    </div>
+    <div class="row position-relative">
+      {% for msg in messages %}
+      <div class="alert alert-success text-center position-absolute start-50 translate-middle success" id="flashmsg" role="alert">{{msg}}</div>
+      {% endfor %} {% for mat in materials %}
+      <div class="col-4">
+        <div class="card mb-4">
+          <img src="{{mat.imgMat}}" alt="" />
+          <div class="inout">
+            <div class="d-inline-block" data-bs-toggle="modal" data-bs-target="#matIn{{mat.id}}"><i class="bi-patch-plus-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Material Masuk"></i></div>
+            <div class="d-inline-block mx-2">
+              <a href="{% url 'detail' mat.random %}"><i class="bi-patch-exclamation-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail"></i></a>
+            </div>
+            <div class="d-inline-block" data-bs-toggle="modal" data-bs-target="#matOut{{mat.id}}"><i class="bi-patch-minus-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Material Keluar"></i></div>
+          </div>
+          <div class="img-download">
+            <a href="{{mat.imgMat}}" download><i class="bi-arrow-down-square" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Gambar"></i></a>
+          </div>
+          <p class="mx-3 mt-2 fst-italic text-center">{{ mat.descMat }}</p>
+          <div class="card-body d-inline-block text-center py-0">
+            <span class="mb-2" style="font-size: 25px; font-weight: bolder">Rp {{mat.totalMat|intcomma}}</span>
+          </div>
+          <div class="card-footer d-flex justify-content-between py-0 pt-3">
+            <p>Harga Satuan Rp {{mat.hargaSat|intcomma}}</p>
+            <p>Qty {{mat.stock}} {{mat.satuan}}</p>
+          </div>
+        </div>
+      </div>
+      <!-- Modal In-->
+      <div class="modal fade modalIn" id="matIn{{mat.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Material Masuk</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="/material">
+                {% csrf_token %}
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Nomor Material</label>
+                  <div class="col-sm-9 d-flex">
+                    <input type="number" class="form-control" name="nmrMat" value="{{mat.nmrMat}}" readonly />
+                    <input type="hidden" class="form-control" name="satuan" value="{{mat.satuan}}" />
+                    <input type="hidden" class="form-control" name="id" value="{{mat.id}}" />
+                    <input type="hidden" class="form-control" name="matOut" value="0" />
+                    <input type="hidden" class="form-control" name="random" value="{{mat.random}}" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Deskripsi Material</label>
+                  <div class="col-sm-9 d-flex">
+                    <input type="text" class="form-control" name="descMat" value="{{mat.descMat}}" readonly />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Stock Material</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="jmlMat" value="{{mat.stock}}" readonly /><span class="ms-2 py-2">{{mat.satuan}}</span></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Tanggal Masuk</label>
+                  <div class="col-sm-9 d-flex"><input type="date" class="form-control" name="tglIn" required /></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Material Masuk</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="matIn" value="0" required /><span class="ms-2 py-2">{{mat.satuan}}</span></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Harga Satuan</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="hargaSat" value="{{mat.hargaSat}}" readonly /><span class="ms-2 py-2">Rupiah</span></div>
+                </div>
+                <div class="mb-4 row">
+                  <label class="col-sm-3 col-form-label">Total Harga</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="totHarga" value="{{mat.totalMat}}" disabled /><span class="ms-2 py-2">Rupiah</span></div>
+                </div>
+                <div class="d-flex justify-content-center matIn"><input style="width: 200px" type="submit" class="btn" value="Simpan" /></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Ahir Modal In -->
+
+      <!-- Modal Out-->
+      <div class="modal fade modalOut" id="matOut{{mat.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Material Keluar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="/material">
+                {% csrf_token %}
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Nomor Material</label>
+                  <div class="col-sm-9 d-flex">
+                    <input type="number" class="form-control" name="nmrMat" value="{{mat.nmrMat}}" readonly />
+                    <input type="hidden" class="form-control" name="satuan" value="{{mat.satuan}}" />
+                    <input type="hidden" class="form-control" name="id" value="{{mat.id}}" />
+                    <input type="hidden" class="form-control" name="matIn" value="0" />
+                    <input type="hidden" class="form-control" name="random" value="{{mat.random}}" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Deskripsi Material</label>
+                  <div class="col-sm-9 d-flex">
+                    <input type="text" class="form-control" name="descMat" value="{{mat.descMat}}" readonly />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Stock Material</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="jmlMat" value="{{mat.stock}}" readonly /><span class="ms-2 py-2">{{mat.satuan}}</span></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Tanggal Keluar</label>
+                  <div class="col-sm-9 d-flex"><input type="date" class="form-control" name="tglOut" required /></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Material Keluar</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="matOut" value="0" required /><span class="ms-2 py-2">{{mat.satuan}}</span></div>
+                </div>
+                <div class="mb-3 row">
+                  <label class="col-sm-3 col-form-label">Harga Satuan</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="hargaSat" value="{{mat.hargaSat}}" readonly /><span class="ms-2 py-2">Rupiah</span></div>
+                </div>
+                <div class="mb-4 row">
+                  <label class="col-sm-3 col-form-label">Total Harga</label>
+                  <div class="col-sm-9 d-flex"><input type="number" class="form-control" name="totHarga" value="{{mat.totalMat}}" disabled /><span class="ms-2 py-2">Rupiah</span></div>
+                </div>
+                <div class="d-flex justify-content-center matOut"><input style="width: 200px" type="submit" class="btn" value="Simpan" /></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Ahir Modal Out -->
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

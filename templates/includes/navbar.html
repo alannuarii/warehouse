@@ -1,0 +1,47 @@
+{% load static %}
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
+        <h1 class="logo me-auto me-lg-0 d-flex align-items-center"><img src="{% static '/img/money.png' %}" alt="" class="me-2" /><a href="{% url 'home' %}">Warehouse</a></h1>
+
+        <nav id="navbar" class="navbar order-last order-lg-0 ms-5">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/">Beranda</a></li>
+            <li><a class="nav-link scrollto" href="{% url 'material' %}">Material</a></li>
+            <li><a class="nav-link scrollto" href="{% url 'kontak' %}">Kontak</a></li>
+            <li><a class="nav-link scrollto" href="/admin">Admin</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+
+        <a href="{% url 'input' %}" class="get-started-btn scrollto me-3">Input Material</a>
+
+        <li class="dropdown">
+          {% if user.first_name == '' %}
+          <a href="{% url 'input' %}" class="get-btn scrollto"><i class="bi-person-circle me-2"></i>{{user}}</a>
+          <ul>
+            <h5 class="text-center fw-bolder">{{user}}</h5>
+            <p class="text-center">{{user.email}}</p>
+            <li>
+              <a href="{% url 'logout' %}" class="d-flex align-items-center"><i class="bi-box-arrow-right me-2" style="font-size: 25px"></i>Keluar</a>
+            </li>
+          </ul>
+          {% else %}
+          <a href="{% url 'input' %}" class="get-btn scrollto"><i class="bi-person-circle me-2"></i>{{user}}</a>
+          <ul>
+            <h5 class="text-center fw-bolder">{{user.first_name}} {{user.last_name}}</h5>
+            <p class="text-center">{{user.email}}</p>
+            <li>
+              <a href="{% url 'logout' %}" class="d-flex align-items-center"><i class="bi-box-arrow-right me-2" style="font-size: 25px"></i>Keluar</a>
+            </li>
+          </ul>
+          {% endif %}
+        </li>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- End Header -->

@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<header id="headermasuk">
+  <nav id="navbar" class="navbar nav-menu">
+    <ul class="d-block">
+      <li>
+        <a href="{% url 'material' %}" class="nav-link active"><i class="bi-cash-coin"></i> <span>List Material</span></a>
+      </li>
+      <li>
+        <a href="{% url 'masuk' %}" class="nav-link active"><i class="bi-box-arrow-in-up"></i> <span>Material Masuk</span></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- .nav-menu -->
+</header>
+<!-- End Header -->
+
+<section id="masuk" class="material-masuk d-flex align-items-start">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12">
+        <h3>MATERIAL KELUAR</h3>
+        <div class="card">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Tanggal Keluar</th>
+                <th scope="col">Nomor Material</th>
+                <th scope="col">Deskripsi Material</th>
+                <th scope="col">Jumlah Material</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for mat in matKeluar %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{mat.tglOut}}</td>
+                <td>{{mat.nmrMat}}</td>
+                <td>{{mat.descMat}}</td>
+                <td>{{mat.matOut}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

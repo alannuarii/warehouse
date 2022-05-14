@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact d-flex align-items-center">
+  <div class="container">
+    <div class="row p-5">
+      <div class="col-lg-4">
+        <div class="info">
+          <div class="address">
+            <i class="bi-geo-alt"></i>
+            <h4>Lokasi:</h4>
+            <p>Jl. Arif Rahman Hakim, Kel. Biga, Kec. Kotamobagu Utara, Kota Kotamobagu, Provinsi Sulawesi Utara</p>
+          </div>
+
+          <div class="email">
+            <i class="bi-envelope"></i>
+            <h4>Email:</h4>
+            <p>info@example.com</p>
+          </div>
+
+          <div class="phone">
+            <i class="bi-telephone"></i>
+            <h4>Telepon:</h4>
+            <p>+62 821 8757 0774</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8 mt-5 mt-lg-0">
+        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Masukkan nama Anda" required />
+            </div>
+            <div class="col-md-6 form-group mt-3 mt-md-0">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Masukkan email Anda" required />
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Judul pesan" required />
+          </div>
+          <div class="form-group mt-3">
+            <textarea class="form-control" name="message" rows="5" placeholder="Masukkan pesan Anda" required></textarea>
+          </div>
+          <div class="my-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your message has been sent. Thank you!</div>
+          </div>
+          <div class="text-center"><button type="submit">Kirim Pesan</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Contact Section -->
+{% endblock content %}

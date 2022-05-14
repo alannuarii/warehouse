@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'includes/styles.html' %} {% block title %}
+    <title>{{title}}</title>
+    {% endblock title %}
+    <!-- Favicons -->
+    <link href="{% static '/img/money.png' %}" rel="icon" />
+  </head>
+  <body>
+    {% block content %}
+
+    <section id="logout" class="logout d-flex align-items-center">
+      <div class="container">
+        <div class="logo row">
+          <h1 class="d-flex align-items-center justify-content-center mb-3"><img src="{% static '/img/money.png' %}" class="img-fluid me-1" alt="" />Warehouse</h1>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-5">
+            <div class="card">
+              <h5 class="text-center mb-4">Apakah Anda yakin ingin keluar?</h5>
+              <form method="POST">
+                {% csrf_token %}
+                <div class="text-center mt-4">
+                  <button type="submit" name="logout" class="btn tombol1">Keluar</button>
+                  <a href="{% url 'home' %}" class="btn tombol2">Kembali</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock content %}{% include 'includes/preloader.html' %} {% include 'includes/scripts.html' %}
+  </body>
+</html>

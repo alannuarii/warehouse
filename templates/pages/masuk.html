@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html' %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<header id="headermasuk">
+  <nav id="navbar" class="navbar nav-menu">
+    <ul class="d-block">
+      <li>
+        <a href="{% url 'material' %}" class="nav-link active"><i class="bi-cash-coin"></i> <span>List Material</span></a>
+      </li>
+      <li>
+        <a href="{% url 'keluar' %}" class="nav-link active"><i class="bi-box-arrow-down"></i> <span>Material Keluar</span></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- .nav-menu -->
+</header>
+<!-- End Header -->
+
+<section id="masuk" class="material-masuk d-flex align-items-start">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12">
+        <h3>MATERIAL MASUK</h3>
+        <div class="card">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Tanggal Masuk</th>
+                <th scope="col">Nomor Material</th>
+                <th scope="col">Deskripsi Material</th>
+                <th scope="col">Jumlah Material</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for mat in matMasuk %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{mat.tglIn}}</td>
+                <td>{{mat.nmrMat}}</td>
+                <td>{{mat.descMat}}</td>
+                {% if mat.matIn == 0 %}
+                <td>{{mat.jmlMat}}</td>
+                {% else %}
+                <td>{{mat.matIn}}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

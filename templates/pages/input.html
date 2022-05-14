@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html' %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<section id="input" class="input-material d-flex align-items-center">
+  <div class="container">
+    <div class="row d-flex justify-content-center position-relative">
+      {% for msg in messages %}
+      <div class="alert alert-success text-center position-absolute start-50 translate-middle error" id="flashmsg" role="alert">{{msg}}</div>
+      {% endfor %}
+      <div class="col-8">
+        <h3>FORM INPUT MATERIAL</h3>
+        <div class="card">
+          <form method="POST" action="/input" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+              <input type="date" class="form-control tglMasuk" id="floatingTanggalMasuk" name="tglMasuk" />
+              <input type="hidden" class="form-control" name="matIn" value="0" />
+              <input type="hidden" class="form-control" name="matOut" value="0" />
+              <input type="hidden" class="form-control tglIn" name="tglIn" value="" />
+              <input type="hidden" class="form-control random" name="random" value="" />
+              <label for="floatingTanggalMasuk">Tanggal Material Masuk</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="floatingNomorMaterial" name="nmrMat" />
+              <label for="floatingNomorMaterial">Nomor Material</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingDeskripsiMaterial" name="descMat" />
+              <label for="floatingDeskripsiMaterialt">Deskripsi Material</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="floatingJumlahMaterial" name="jmlMat" />
+              <label for="floatingJumlahMaterial">Jumlah Material</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="floatingSatuan" name="satuan" />
+              <label for="floatingSatuan">Satuan</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="floatingHargaSatuan" name="hargaSat" />
+              <label for="floatingHargaSatuan">Harga Satuan</label>
+            </div>
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Foto Material</label>
+              <input class="form-control" type="file" id="formFile" name="imgMat" />
+            </div>
+            <div class="text-center mt-4">
+              <button type="submit" class="btn tombol1">Simpan</button>
+              <button type="reset" class="btn tombol2">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

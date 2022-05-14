@@ -1,0 +1,109 @@
+{% extends 'layouts/base.html' %} {% load static %} {% load humanize %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %} {% block content %}
+<header id="headermasuk">
+  <nav id="navbar" class="navbar nav-menu">
+    <ul class="d-block">
+      <li>
+        <a href="{% url 'home' %}" class="nav-link active"><i class="bi-house"></i> <span>Beranda</span></a>
+      </li>
+      <li>
+        <a href="{% url 'material' %}" class="nav-link active"><i class="bi-cash-coin"></i> <span>List Material</span></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- .nav-menu -->
+</header>
+<!-- End Header -->
+
+<!-- ======= Contact Section ======= -->
+<section id="detail" class="detail d-flex align-items-center">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-9 my-auto">
+        <div class="card card-left" style="max-width: 100%">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <img src="{% static detail.imgMat %}" class="img-fluid rounded-start" alt="..." />
+            </div>
+            <div class="col-md-4">
+              <div class="card-body pt-4">
+                <h4>DETAIL MATERIAL</h4>
+                <div class="cover">
+                  <p>Nomor Material</p>
+                  <h6>{{detail.nmrMat}}</h6>
+                </div>
+                <div class="cover">
+                  <p>Deskripsi Material</p>
+                  <h6>{{detail.descMat}}</h6>
+                </div>
+                <div class="cover">
+                  <p>Stock</p>
+                  <h6>{{detail.stock}} {{detail.satuan}}</h6>
+                </div>
+                <div class="cover">
+                  <p>Harga Satuan</p>
+                  <h6>Rp {{detail.hargaSat|intcomma}}</h6>
+                </div>
+                <div class="cover">
+                  <p>Total Saldo</p>
+                  <h6>Rp {{detail.totalMat|intcomma}}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="row">
+          <h4 class="text-center">MATERIAL MASUK</h4>
+          <div class="card card-right" style="width: 18rem">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                {% for masuk in inmat %} {% if masuk.tglIn != None %}
+                <li class="list-group-item">
+                  <table class="table table-borderless m-0 p-0 text-center">
+                    <tbody>
+                      <tr>
+                        <td>{{masuk.tglIn|date:'d M Y'}}</td>
+                        {% if masuk.matIn == 0 %}
+                        <td>{{masuk.jmlMat}} {{masuk.satuan}}</td>
+                        {% else %}
+                        <td>{{masuk.matIn}} {{masuk.satuan}}</td>
+                        {% endif %}
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                {% endif %} {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <h4 class="text-center">MATERIAL KELUAR</h4>
+          <div class="card card-right" style="width: 18rem">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                {% for keluar in outmat %} {% if keluar.tglOut != None %}
+                <li class="list-group-item">
+                  <table class="table table-borderless m-0 p-0 text-center">
+                    <tbody>
+                      <tr>
+                        <td>{{keluar.tglOut|date:'d M Y'}}</td>
+                        <td>{{keluar.matOut}} {{keluar.satuan}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                {% endif %} {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Contact Section -->
+{% endblock content %}
